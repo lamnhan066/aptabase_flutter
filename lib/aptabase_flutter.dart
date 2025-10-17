@@ -1,20 +1,19 @@
 /// The Flutter SDK for Aptabase, a privacy-first and
 /// simple analytics platform for apps.
-library aptabase_flutter;
+library;
 
 import "dart:async";
 import "dart:convert";
 import "dart:developer" as developer;
 
+import "package:aptabase_flutter/init_options.dart";
+import "package:aptabase_flutter/random_string.dart";
+import "package:aptabase_flutter/storage_manager.dart";
 import "package:aptabase_flutter/storage_manager_shared_prefs.dart";
 import "package:aptabase_flutter/sys_info.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/widgets.dart";
 import "package:universal_io/io.dart";
-
-import "package:aptabase_flutter/init_options.dart";
-import "package:aptabase_flutter/random_string.dart";
-import "package:aptabase_flutter/storage_manager.dart";
 
 export "package:aptabase_flutter/init_options.dart";
 
@@ -222,10 +221,7 @@ class Aptabase {
       request.followRedirects = true;
       request.headers
         ..set("App-Key", _appKey)
-        ..set(
-          HttpHeaders.contentTypeHeader,
-          "application/json; charset=UTF-8",
-        );
+        ..set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
 
       if (!kIsWeb) {
         request.headers.set(HttpHeaders.userAgentHeader, _sdkVersion);
@@ -292,20 +288,12 @@ class Aptabase {
   }
 
   static void _logInfo(String msg) {
-    developer.log(
-      msg,
-      name: "Aptabase",
-      level: 800,
-    );
+    developer.log(msg, name: "Aptabase", level: 800);
   }
 
   static void _logDebug(String msg) {
     if (!_initOptions.printDebugMessages) return;
 
-    developer.log(
-      msg,
-      name: "Aptabase",
-      level: 500,
-    );
+    developer.log(msg, name: "Aptabase", level: 500);
   }
 }

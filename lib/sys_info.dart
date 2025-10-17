@@ -54,18 +54,12 @@ class SystemInfo {
     if (kIsWeb) {
       final info = await deviceInfo.webBrowserInfo;
 
-      return (
-        name: info.browserName.name,
-        version: info.appVersion ?? "",
-      );
+      return (name: info.browserName.name, version: info.appVersion ?? "");
     }
 
     if (Platform.isAndroid) {
       final info = await deviceInfo.androidInfo;
-      return (
-        name: _kAndroidOsName,
-        version: info.version.release,
-      );
+      return (name: _kAndroidOsName, version: info.version.release);
     }
 
     if (Platform.isIOS) {
@@ -78,7 +72,8 @@ class SystemInfo {
 
     if (Platform.isMacOS) {
       final info = await deviceInfo.macOsInfo;
-      final version = "${info.majorVersion}."
+      final version =
+          "${info.majorVersion}."
           "${info.minorVersion}."
           "${info.patchVersion}";
 
@@ -87,7 +82,8 @@ class SystemInfo {
 
     if (Platform.isWindows) {
       final info = await deviceInfo.windowsInfo;
-      final version = "${info.majorVersion}."
+      final version =
+          "${info.majorVersion}."
           "${info.minorVersion}."
           "${info.buildNumber}";
 
@@ -97,10 +93,7 @@ class SystemInfo {
     if (Platform.isLinux) {
       final info = await deviceInfo.linuxInfo;
 
-      return (
-        name: info.name,
-        version: info.versionId ?? _kUnknownOsVersion,
-      );
+      return (name: info.name, version: info.versionId ?? _kUnknownOsVersion);
     }
 
     return (
