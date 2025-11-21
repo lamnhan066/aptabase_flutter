@@ -1,17 +1,15 @@
 import "package:aptabase_flutter/storage_manager.dart";
-import "package:shared_preferences/shared_preferences.dart";
+import "package:hive_ce_flutter/hive_flutter.dart";
 
-class StorageManagerSharedPrefs extends StorageManager {
+class StorageManagerHive extends StorageManager {
   final _events = <String, String>{};
+  late final Box<String> _box;
 
   @override
   Future<void> init() async {
-    final sharedPrefs = await SharedPreferences.getInstance();
-    final keys = sharedPrefs.getKeys();
-    for (final key in keys) {
-      final value = sharedPrefs.getString(key);
-      if (value != null) _events[key] = value;
-    }
+    await Hive.initFlutter();
+
+    _box = await Hive.openBox<String>("aptabase");
 
     return super.init();
   }
@@ -20,17 +18,15 @@ class StorageManagerSharedPrefs extends StorageManager {
   Future<void> addEvent(String key, String event) async {
     _events[key] = event;
 
-    final sharedPrefs = await SharedPreferences.getInstance();
-    await sharedPrefs.setString(key, event);
+    await _box.put(key, event);
   }
 
   @override
   Future<void> deleteEvents(Set<String> keys) async {
     _events.removeWhere((k, _) => keys.contains(k));
 
-    final sharedPrefs = await SharedPreferences.getInstance();
     for (final key in keys) {
-      await sharedPrefs.remove(key);
+      await _box.delete(key);
     }
   }
 
